@@ -1,4 +1,4 @@
-import { User } from "../modules/users.module";
+import { User } from "../modules/users.module.js";
 
 const createUser = async (userData) => {
   const { email, password } = userData;

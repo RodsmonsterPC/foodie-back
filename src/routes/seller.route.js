@@ -1,35 +1,34 @@
-import express from "express";
+import express, { response } from "express";
+
 import {
-  getUsers,
-  createUser,
-  getUserById,
-  updateUser,
-  deleteUser,
-} from "../useCases/users.useCase.js";
+  creatSeller,
+  getSeller,
+  getSellerByUserId,
+  deleteSeller,
+  updateSeller,
+} from "../useCases/seller.useCase.js";
 
 const router = express.Router();
 
-router.get("/", async (request, response) => {
+router.get("/", async (request, respose) => {
   try {
-    const { name, email } = request.query;
-
-    let filters = {};
+    let { name, email } = request.query;
 
     if (name) filters = { ...filters, name };
-    if (email) filters = { ...filters, age };
+    if (email) filters = { ...filters, email };
 
-    const usersFound = await getUsers(filters);
+    const sellerFound = await getSeller(filters);
 
     response.json({
       success: true,
       data: {
-        users: usersFound,
+        sellers: sellerFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get All users",
+      message: "Error at get all sellers",
     });
   }
 });
@@ -38,17 +37,18 @@ router.get("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const usersFound = await getUserById(id);
+    const sellerFound = await getSellerByUserId(id);
+
     response.json({
       success: true,
       data: {
-        userss: usersFound,
+        seller: sellerFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get users",
+      message: "Error at get seller",
     });
   }
 });
@@ -56,20 +56,20 @@ router.get("/:id", async (request, response) => {
 router.patch("/:id", async (request, response) => {
   try {
     const id = request.params.id;
-
     let updateData = request.body;
 
-    const userUpdated = await updateUser(id, updateData);
+    const sellerUpdate = await updateSeller(id, updateData);
+
     response.json({
       success: true,
       data: {
-        users: userUpdated,
+        sellers: sellerUpdate,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at update user",
+      message: "Error at update data",
     });
   }
 });
@@ -78,36 +78,38 @@ router.delete("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const deletedUser = await deleteUser(id);
+    const sellerDelete = await deleteSeller(id);
+
     response.json({
       success: true,
       data: {
-        Users: deletedUser,
+        seller: sellerDelete,
       },
     });
   } catch (error) {
     response.status(400).json({
-      success: false,
-      message: "Error at delete user",
+      success: true,
+      message: "Error at delete seller",
     });
   }
 });
 
 router.post("/", async (request, response) => {
   try {
-    const newData = request.body;
+    let newData = request.body;
 
-    const newUser = await createUser(newData);
+    const newSeller = await creatSeller(newData);
+
     response.json({
       success: true,
       data: {
-        Users: newUser,
+        seller: newSeller,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: error.message,
+      message: "Error at create Seller",
     });
   }
 });
