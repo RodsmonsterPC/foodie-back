@@ -1,4 +1,4 @@
-import { Seller } from "../modules/seller.module";
+import { Seller } from "../modules/seller.module.js";
 
 const creatSeller = async (sellerData) => {
   return Seller.create(sellerData);

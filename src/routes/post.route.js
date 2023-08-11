@@ -1,11 +1,12 @@
 import express from "express";
+
 import {
-  getUsers,
-  createUser,
-  getUserById,
-  updateUser,
-  deleteUser,
-} from "../useCases/users.useCase.js";
+  createProduct,
+  getProducts,
+  getProductByUserId,
+  updateProduct,
+  deleteProduct,
+} from "../useCases/post.useCase.js";
 
 const router = express.Router();
 
@@ -18,18 +19,18 @@ router.get("/", async (request, response) => {
     if (name) filters = { ...filters, name };
     if (email) filters = { ...filters, age };
 
-    const usersFound = await getUsers(filters);
+    const productFound = await getProducts(filters);
 
     response.json({
       success: true,
       data: {
-        users: usersFound,
+        product: productFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get All users",
+      message: "Error at get All products",
     });
   }
 });
@@ -38,17 +39,17 @@ router.get("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const usersFound = await getUserById(id);
+    const productsFound = await getProductByUserId(id);
     response.json({
       success: true,
       data: {
-        userss: usersFound,
+        productss: productsFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get users",
+      message: "Error at get products",
     });
   }
 });
@@ -59,17 +60,17 @@ router.patch("/:id", async (request, response) => {
 
     let updateData = request.body;
 
-    const userUpdated = await updateUser(id, updateData);
+    const productUpdated = await updateProduct(id, updateData);
     response.json({
       success: true,
       data: {
-        users: userUpdated,
+        products: productUpdated,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at update user",
+      message: "Error at update product",
     });
   }
 });
@@ -78,17 +79,17 @@ router.delete("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const deletedUser = await deleteUser(id);
+    const deletedProduct = await deleteProduct(id);
     response.json({
       success: true,
       data: {
-        Users: deletedUser,
+        products: deletedProduct,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at delete user",
+      message: "Error at delete product",
     });
   }
 });
@@ -97,11 +98,11 @@ router.post("/", async (request, response) => {
   try {
     const newData = request.body;
 
-    const newUser = await createUser(newData);
+    const newProduct = await createProduct(newData);
     response.json({
       success: true,
       data: {
-        Users: newUser,
+        products: newProduct,
       },
     });
   } catch (error) {

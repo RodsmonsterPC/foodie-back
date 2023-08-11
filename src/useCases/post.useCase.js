@@ -1,4 +1,4 @@
-import { Product } from "../modules/post.module";
+import { Product } from "../modules/post.module.js";
 
 const createProduct = async (productData) => {
   return Product.create(productData);
