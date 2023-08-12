@@ -17,7 +17,7 @@ router.get("/", async (request, response) => {
     let filters = {};
 
     if (name) filters = { ...filters, name };
-    if (email) filters = { ...filters, age };
+    if (email) filters = { ...filters, email };
 
     const productFound = await getProducts(filters);
 
