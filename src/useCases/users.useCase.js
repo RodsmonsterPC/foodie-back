@@ -1,4 +1,5 @@
 import { User } from "../modules/users.module.js";
+import bcrypt from "../lib/bcrypt.js";
 
 const createUser = async (userData) => {
   const { email, password } = userData;
@@ -8,7 +9,9 @@ const createUser = async (userData) => {
     throw new Error("El correo ya existe");
   }
 
-  return User.create({ ...userData });
+  const hashedPassword = await bcrypt.hash(password);
+
+  return User.create({ ...userData, password: hashedPassword });
 };
 
 const getUsers = async (filters = {}) => {
