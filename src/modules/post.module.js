@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema({
     ref: "Seller",
   },
   file: {
-    //
+    type: String,
   },
   active: {
     type: Boolean,
