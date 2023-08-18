@@ -26,8 +26,12 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Seller",
+  },
   file: {
-    //
+    type: String,
   },
   active: {
     type: Boolean,
@@ -35,6 +39,6 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 export { Product };
