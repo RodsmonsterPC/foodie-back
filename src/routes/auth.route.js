@@ -7,7 +7,7 @@ router.post("/login", async (request, response) => {
   try {
     const { email, password } = request.body;
     const token = await login(email, password);
-    response.jason({
+    response.json({
       success: true,
       message: "Login success",
       data: {
