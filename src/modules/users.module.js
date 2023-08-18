@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  purchases: {
+    type: String[""],
+  },
   role: {
     type: String,
     enum: ["user", "seller"],
@@ -27,6 +30,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export { User };
