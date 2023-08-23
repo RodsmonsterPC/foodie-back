@@ -23,7 +23,7 @@ const getUserById = async (id) => {
 };
 
 const updateUser = async (id, dataUpdate, options = {}) => {
-  return User.findByIdAndUpdate(id, dataUpdate, { new: true }, ...options);
+  return User.findByIdAndUpdate(id, dataUpdate, { new: true, ...options });
 };
 
 const deleteUser = async (id) => {
