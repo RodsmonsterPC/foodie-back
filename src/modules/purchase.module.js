@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose ,{Schema} from "mongoose";
 import { boolean } from "webidl-conversions";
 
 const purchaseSchema = new mongoose.Schema({
@@ -19,7 +19,8 @@ const purchaseSchema = new mongoose.Schema({
     ref: "user",
   },
   file: {
-    //
+    type:String,
+    select:false
   },
   delivered: {
     type: Boolean,
