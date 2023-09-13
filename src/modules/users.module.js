@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: false,
     minLenght: 3,
     maxLength: 100,
     trim: true,
@@ -20,10 +19,33 @@ const userSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  role: {
+  phoneNumber: {
+    type: Number,
+    minLenght: 10,
+  },
+  description: {
     type: String,
-    enum: ["user", "seller"],
-    default: "user",
+    trim: true,
+    minLenght: 3,
+    maxLength: 200,
+  },
+  rfc: {
+    type: String,
+    trim: true,
+    minLenght: 13,
+  },
+  address: {
+    type: String,
+    minLenght: 3,
+    maxLength: 100,
+  },
+  imgLogo: {
+    type: String,
+  },
+  role: {
+    type: [String],
+    enum: ["buyer", "seller"],
+    default: "buyer",
   },
 });
 

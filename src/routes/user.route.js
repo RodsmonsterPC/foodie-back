@@ -42,7 +42,7 @@ router.get("/:id", async (request, response) => {
     response.json({
       success: true,
       data: {
-        userss: usersFound,
+        users: usersFound,
       },
     });
   } catch (error) {
@@ -69,7 +69,7 @@ router.patch("/:id", async (request, response) => {
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at update user",
+      message: error.message,
     });
   }
 });
