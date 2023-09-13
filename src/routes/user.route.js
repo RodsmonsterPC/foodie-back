@@ -42,7 +42,7 @@ router.get("/:id", async (request, response) => {
     response.json({
       success: true,
       data: {
-        userss: usersFound,
+        users: usersFound,
       },
     });
   } catch (error) {
