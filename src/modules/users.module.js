@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
   },
   address: {
     type: String,
+    minLenght: 3,
     maxLength: 100,
   },
   imgLogo: {
