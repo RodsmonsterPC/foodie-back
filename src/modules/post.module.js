@@ -4,7 +4,7 @@ import mongoose  from "mongoose";
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: false,
+    required: true,
     minLenght: 3,
     maxLength: 100,
     trim: true,
@@ -26,6 +26,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
     trim: true,
+  },
+  category: {
+    type: String,
+    required: true,
   },
   user: {
     type:mongoose.Schema.Types.ObjectId,

@@ -42,7 +42,6 @@ const sellerSchema = new mongoose.Schema({
   },
   imgLogo: {
     type: String,
-    required: true,
   },
   role: {
     type: String,
