@@ -1,4 +1,7 @@
 import express, { response } from "express";
+import multer from 'multer'
+
+const upload = multer({dest: 'upload/'})
 
 import {
   creatSeller,
@@ -94,7 +97,7 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
-router.post("/", async (request, response) => {
+router.post("/",upload.single('avatar'), async (request, response) => {
   try {
     let newData = request.body;
 

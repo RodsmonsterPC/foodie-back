@@ -48,6 +48,9 @@ const sellerSchema = new mongoose.Schema({
     type: String,
     default: "seller",
   },
+  profilePicture: {
+    type: String,
+  },
 });
 
 const Seller = mongoose.model("Seller", sellerSchema);
