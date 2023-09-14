@@ -1,15 +1,7 @@
 import express, { response } from "express";
-import multer from 'multer'
 
-const upload = multer({dest: 'upload/'})
-
-import {
-  creatSeller,
-  getSeller,
-  getSellerByUserId,
-  deleteSeller,
-  updateSeller,
-} from "../useCases/seller.useCase.js";
+import {creatSeller, getSeller,getSellerByUserId,deleteSeller,updateSeller} from "../useCases/seller.useCase.js";
+import dataFile from "../middlewares/storageFile.middleware.js";
 
 const router = express.Router();
 
@@ -97,10 +89,10 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
-router.post("/",upload.single('avatar'), async (request, response) => {
+router.post("/", dataFile, async (request, response) => {
   try {
     let newData = request.body;
-
+    if (request.file) newData.profilePicture = request.file.path;
     const newSeller = await creatSeller(newData);
 
     response.json({
