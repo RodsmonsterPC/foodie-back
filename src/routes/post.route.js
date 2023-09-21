@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../useCases/post.useCase.js";
+import dataFile from "../middlewares/storageFile.middleware.js";
 
 const router = express.Router();
 
@@ -94,11 +95,21 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
-router.post("/", async (request, response) => {
+router.post("/", dataFile, async (request, response) => {
+  
   try {
-    const newData = request.body;
-
+    const newData = {};
+    newData.name = request.body.name;
+    newData.price = request.body.price;
+    newData.description = request.body.description;
+    newData.existence = request.body.existence;
+    newData.category = request.body.category;
+    newData.active = request.body.active;
+    //http://localhost:8081/
+    if (request.file) newData.file =`http://localhost:8081/${ request.file.filename}`
+    console.log(newData.file)
     const newProduct = await createProduct(newData);
+    
     response.json({
       success: true,
       data: {
@@ -106,6 +117,7 @@ router.post("/", async (request, response) => {
       },
     });
   } catch (error) {
+    console.log(error);
     response.status(400).json({
       success: false,
       message: error.message,

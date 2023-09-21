@@ -4,6 +4,8 @@ import userRouter from "./routes/user.route.js";
 import sellerRouter from "./routes/seller.route.js";
 import cors from "cors";
 import authRouter from "./routes/auth.route.js";
+import path from "path";
+
 
 const server = express();
 server.use(express.json());
@@ -12,5 +14,6 @@ server.use("/posts", postRouter);
 server.use("/users", userRouter);
 server.use("/sellers", sellerRouter);
 server.use("/auth", authRouter);
+server.use(express.static('uploads'))
 
 export { server };
