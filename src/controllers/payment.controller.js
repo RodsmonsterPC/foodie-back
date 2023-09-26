@@ -1,60 +1,78 @@
-import {HOST,PAYPAL_API,PAYPAL_API_CLIENT,PAYPAL_API_SECRET} from "../config.js";
-import axios from "axios";
-export const createOrder = async (req, resp) => {
-  const order = {
-    intent: "CAPTURE",
-    purchase_units: [
-      {
-        amount: {
-          currency_code: "USD",
-          value: "100.00",
-        },
-      },
-    ],
-    application_context: {
-      brand_name: "Mi tienda",
-      landing_page: "NO_PREFERENCE",
-      user_action: "PAY_NOW",
-      return_url: `${HOST}/capture-order`,
-      cancel_url: `${HOST}/calcel-order`,
-    },
-  };
-  const params = new URLSearchParams();
-  params.append("grant_type", "client_credentials");
-  const { data: { access_token }} = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-    auth: {
-      username: PAYPAL_API_CLIENT,
-      password: PAYPAL_API_SECRET,
-    },
-  });
-  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders`, order, {
+import fetch from "node-fetch";
+
+const { PAYPAL_API_CLIENT, PAYPAL_API_SECRET } = process.env;
+const base = "https://api-m.sandbox.paypal.com";
+
+export const createOrder = async (data) => {
+  const accessToken = await generateAccessToken();
+  const url = `${base}/v2/checkout/orders`;
+
+  const response = await fetch(url, {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          amount: {
+            //detalle del producto aqui va data
+            currency_code: "USD",
+            value: data.cost,
+          },
+        },
+      ],
+    }),
+  });
+  return handleResponse(response);
+};
+
+export const captureOrder = async (orderID) => {
+  const accessToken = await generateAccessToken();
+  const url = `${base}/v2/checkout/orders/${orderID}/capture`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
   });
-  return resp.json(response.data);
+
+  return handleResponse(response);
 };
-export const captureOrder = async (req, res) => {
-  const { token } = req.query;
-
+//1
+export const generateAccessToken = async () => {
   try {
-    const response = await axios.post(
-      `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-      {},
-      {
-        auth: {
-          username: PAYPAL_API_CLIENT,
-          password: PAYPAL_API_SECRET,
-        },
-      }
-    );
+    if (!PAYPAL_API_CLIENT || !PAYPAL_API_SECRET) {
+      throw new Error("Error API credentials");
+    }
+    const auth = Buffer.from(PAYPAL_API_CLIENT+ ":" + PAYPAL_API_SECRET).toString("base64");
+    const response = await fetch(`${base}/v1/oauth2/token`, {
+      method: "POST",
+      body: "grant_type=client_credentials",
+      headers: {
+        Authorization: `Basic ${auth}`,
+      },
+    });
 
-    console.log(response.data);
-
-    res.redirect("/payed.html");
+    const data = await response.json();
+    return data.access_token;
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Internal Server error" });
+    console.error("Failed to generate Access Token:", error);
   }
 };
-export const cancelPayment = (req, resp) => resp.redirect('/');
+
+async function handleResponse(response) {
+  try {
+    const jsonResponse = await response.json();
+    return {
+      jsonResponse,
+      httpStatusCode: response.status,
+    };
+  } catch (err) {
+    const errorMessage = await response.text();
+    throw new Error(errorMessage);
+  }
+}
