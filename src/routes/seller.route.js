@@ -89,7 +89,7 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
-router.post("/", dataFile, async (request, response) => {
+router.post("/", async (request, response) => {
   try {
     let newData = request.body;
     if (request.file) newData.profilePicture = request.file.path;
