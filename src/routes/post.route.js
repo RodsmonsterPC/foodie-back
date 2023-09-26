@@ -1,5 +1,6 @@
 import express from "express";
-
+import multer from "multer";
+const upload = multer({ dest: "upload/" });
 import {
   createProduct,
   getProducts,
@@ -44,7 +45,7 @@ router.get("/:id", async (request, response) => {
     response.json({
       success: true,
       data: {
-        productss: productsFound,
+        products: productsFound,
       },
     });
   } catch (error) {
@@ -60,7 +61,7 @@ router.patch("/:id", async (request, response) => {
     const id = request.params.id;
 
     let updateData = request.body;
-
+    console.log(success);
     const productUpdated = await updateProduct(id, updateData);
     response.json({
       success: true,
@@ -95,8 +96,9 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
+
 router.post("/", dataFile, async (request, response) => {
-  
+ 
   try {
     const newData = {};
     newData.name = request.body.name;

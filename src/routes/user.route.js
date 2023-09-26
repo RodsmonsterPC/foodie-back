@@ -1,4 +1,6 @@
 import express from "express";
+import multer from "multer";
+const upload = multer({ dest: "upload/" });
 import {
   getUsers,
   createUser,
@@ -53,7 +55,7 @@ router.get("/:id", async (request, response) => {
   }
 });
 
-router.patch("/:id", async (request, response) => {
+router.patch("/:id", upload.single("avatar"), async (request, response) => {
   try {
     const id = request.params.id;
 
