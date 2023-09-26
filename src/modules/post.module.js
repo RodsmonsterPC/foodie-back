@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -32,7 +32,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type:mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Seller",
   },
   file: {
@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: false,
+  },
+  quantity: {
+    type: Number,
+    trim: true,
+    default: 1,
   },
 });
 
