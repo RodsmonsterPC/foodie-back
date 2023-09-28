@@ -18,9 +18,10 @@ export const createOrder = async (data) => {
       purchase_units: [
         {
           amount: {
-            //detalle del producto aqui va data
+            
             currency_code: "USD",
             value: data.cost,
+            
           },
         },
       ],
@@ -42,7 +43,7 @@ export const captureOrder = async (orderID) => {
 
   return handleResponse(response);
 };
-//1
+
 export const generateAccessToken = async () => {
   try {
     if (!PAYPAL_API_CLIENT || !PAYPAL_API_SECRET) {

@@ -1,7 +1,7 @@
 import express, { response } from "express";
 
 import {creatSeller, getSeller,getSellerByUserId,deleteSeller,updateSeller} from "../useCases/seller.useCase.js";
-import dataFile from "../middlewares/storageFile.middleware.js";
+
 
 const router = express.Router();
 
