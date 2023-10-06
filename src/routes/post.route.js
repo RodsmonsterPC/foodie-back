@@ -101,17 +101,18 @@ router.post("/", dataFile, async (request, response) => {
  
   try {
     const newData = {};
+    console.log(request.body)
     newData.name = request.body.name;
     newData.price = request.body.price;
     newData.description = request.body.description;
     newData.existence = request.body.existence;
     newData.category = request.body.category;
     newData.active = request.body.active;
-    //http://localhost:8081/
+
     if (request.file) newData.file =`http://localhost:8081/${ request.file.filename}`
-    console.log(newData.file)
-    const newProduct = await createProduct(newData);
     
+    const newProduct = await createProduct(newData);
+        
     response.json({
       success: true,
       data: {
