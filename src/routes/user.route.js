@@ -1,5 +1,5 @@
 import express from "express";
-
+import sellerFile from "../middlewares/sellerFiles.middleware.js";
 import {
   getUsers,
   createUser,
@@ -54,13 +54,22 @@ router.get("/:id", async (request, response) => {
   }
 });
 
-router.patch("/:id", async (request, response) => {
+router.patch("/:id", sellerFile, async (request, response) => {
   try {
     const id = request.params.id;
-
-    let updateData = request.body;
-
-    const userUpdated = await updateUser(id, updateData);
+    const newData = {};
+    newData.name = request.body.name;
+    newData.phoneNumber = request.body.phoneNumber;
+    newData.description = request.body.description;
+    newData.email = request.body.email;
+    newData.rfc = request.body.rfc;
+    newData.address = request.body.address;
+    newData.role = request.body.seller;
+    if (request.file)
+      newData.imgLogo = `http://localhost:8081/${request.file.filename}`;
+   
+    const userUpdated = await updateUser(id, newData);
+    
     response.json({
       success: true,
       data: {
