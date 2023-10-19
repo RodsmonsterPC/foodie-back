@@ -61,7 +61,7 @@ router.patch("/:id", async (request, response) => {
     const id = request.params.id;
 
     let updateData = request.body;
-    console.log(success);
+
     const productUpdated = await updateProduct(id, updateData);
     response.json({
       success: true,
@@ -72,7 +72,7 @@ router.patch("/:id", async (request, response) => {
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at update product",
+      message: console.log(error.message),
     });
   }
 });
@@ -96,9 +96,7 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
-
 router.post("/", dataFile, async (request, response) => {
- 
   try {
     const newData = {};
     newData.name = request.body.name;
@@ -108,10 +106,11 @@ router.post("/", dataFile, async (request, response) => {
     newData.category = request.body.category;
     newData.active = request.body.active;
     //http://localhost:8081/
-    if (request.file) newData.file =`http://localhost:8081/${ request.file.filename}`
-    console.log(newData.file)
+    if (request.file)
+      newData.file = `http://localhost:8081/${request.file.filename}`;
+    console.log(newData.file);
     const newProduct = await createProduct(newData);
-    
+
     response.json({
       success: true,
       data: {

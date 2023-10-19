@@ -31,9 +31,9 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  user: {
+  users: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Seller",
+    ref: "User",
   },
   file: {
     type: String,
