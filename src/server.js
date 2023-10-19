@@ -19,6 +19,7 @@ server.use("/auth", authRouter);
 server.use("/",paypalOrder)
 server.use("/",paypalId)
 server.use(express.static('uploads'))
+server.use(express.static('sellerUploads'))
 
 
 

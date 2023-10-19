@@ -99,6 +99,7 @@ router.delete("/:id", async (request, response) => {
 router.post("/", dataFile, async (request, response) => {
   try {
     const newData = {};
+    console.log(request.body);
     newData.name = request.body.name;
     newData.price = request.body.price;
     newData.description = request.body.description;
