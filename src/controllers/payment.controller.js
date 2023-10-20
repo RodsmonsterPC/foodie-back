@@ -4,6 +4,7 @@ const { PAYPAL_API_CLIENT, PAYPAL_API_SECRET } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 
 export const createOrder = async (data) => {
+  
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
 
@@ -17,15 +18,15 @@ export const createOrder = async (data) => {
       intent: "CAPTURE",
       purchase_units: [
         {
+          reference_id: data.idProduct,
           amount: {
-            
             currency_code: "USD",
             value: data.cost,
-            
           },
         },
       ],
     }),
+   
   });
   return handleResponse(response);
 };
@@ -49,7 +50,9 @@ export const generateAccessToken = async () => {
     if (!PAYPAL_API_CLIENT || !PAYPAL_API_SECRET) {
       throw new Error("Error API credentials");
     }
-    const auth = Buffer.from(PAYPAL_API_CLIENT+ ":" + PAYPAL_API_SECRET).toString("base64");
+    const auth = Buffer.from(
+      PAYPAL_API_CLIENT + ":" + PAYPAL_API_SECRET
+    ).toString("base64");
     const response = await fetch(`${base}/v1/oauth2/token`, {
       method: "POST",
       body: "grant_type=client_credentials",
