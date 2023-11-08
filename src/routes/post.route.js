@@ -25,7 +25,7 @@ router.get("/", async (request, response) => {
 
     response.json({
       success: true,
-      data: {
+      products: {
         product: productFound,
       },
     });
@@ -91,7 +91,7 @@ router.delete("/:id", async (request, response) => {
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at delete product",
+      message: console.log(error.message),
     });
   }
 });
