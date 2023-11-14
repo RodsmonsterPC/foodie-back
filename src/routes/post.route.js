@@ -104,6 +104,7 @@ router.post("/", dataFile, async (request, response) => {
     newData.price = request.body.price;
     newData.description = request.body.description;
     newData.existence = request.body.existence;
+    newData.user = request.body.user;
     newData.category = request.body.category;
     newData.active = request.body.active;
     //http://localhost:8081/
