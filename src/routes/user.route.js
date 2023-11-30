@@ -64,12 +64,14 @@ router.patch("/:id", sellerFile, async (request, response) => {
     newData.email = request.body.email;
     newData.rfc = request.body.rfc;
     newData.address = request.body.address;
-    newData.role = request.body.seller;
+    newData.shopping = request.body.shopping;
+    newData.role = "seller";
+
     if (request.file)
       newData.imgLogo = `http://localhost:8081/${request.file.filename}`;
-   
+
     const userUpdated = await updateUser(id, newData);
-    
+
     response.json({
       success: true,
       data: {

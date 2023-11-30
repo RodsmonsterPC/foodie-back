@@ -1,29 +1,35 @@
 import express, { response } from "express";
 
-import {creatSeller, getSeller,getSellerByUserId,deleteSeller,updateSeller} from "../useCases/seller.useCase.js";
-
+import {
+  creatShopping,
+  getShopping,
+  getShoppingByUserId,
+  deleteShopping,
+  updateShopping,
+} from "../useCases/shopping.useCase.js";
 
 const router = express.Router();
 
-router.get("/", async (request, respose) => {
+router.get("/", async (request, response) => {
   try {
-    let { name, email } = request.query;
+    const { name, email } = request.query;
 
+    let filters = {};
     if (name) filters = { ...filters, name };
     if (email) filters = { ...filters, email };
 
-    const sellerFound = await getSeller(filters);
+    const shoppingFound = await getShopping(filters);
 
     response.json({
       success: true,
       data: {
-        sellers: sellerFound,
+        Shoppings: shoppingFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get all sellers",
+      message: console.log(error.message),
     });
   }
 });
@@ -32,18 +38,18 @@ router.get("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const sellerFound = await getSellerByUserId(id);
+    const shoppingFound = await getShoppingByUserId(id);
 
     response.json({
       success: true,
       data: {
-        seller: sellerFound,
+        Shopping: shoppingFound,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at get seller",
+      message: "Error at get shopping",
     });
   }
 });
@@ -53,12 +59,12 @@ router.patch("/:id", async (request, response) => {
     const id = request.params.id;
     let updateData = request.body;
 
-    const sellerUpdate = await updateSeller(id, updateData);
+    const shoppingUpdate = await updateShopping(id, updateData);
 
     response.json({
       success: true,
       data: {
-        sellers: sellerUpdate,
+        Shoppings: shoppingUpdate,
       },
     });
   } catch (error) {
@@ -73,18 +79,18 @@ router.delete("/:id", async (request, response) => {
   try {
     const id = request.params.id;
 
-    const sellerDelete = await deleteSeller(id);
+    const shoppingDelete = await deleteShopping(id);
 
     response.json({
       success: true,
       data: {
-        seller: sellerDelete,
+        Shopping: shoppingDelete,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: true,
-      message: "Error at delete seller",
+      message: "Error at delete shopping",
     });
   }
 });
@@ -93,18 +99,18 @@ router.post("/", async (request, response) => {
   try {
     let newData = request.body;
     if (request.file) newData.profilePicture = request.file.path;
-    const newSeller = await creatSeller(newData);
+    const newShopping = await creatShopping(newData);
 
     response.json({
       success: true,
       data: {
-        seller: newSeller,
+        Shopping: newShopping,
       },
     });
   } catch (error) {
     response.status(400).json({
       success: false,
-      message: "Error at create Seller",
+      message: "Error at create Shopping",
     });
   }
 });

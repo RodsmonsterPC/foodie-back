@@ -47,6 +47,11 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: 1,
   },
+  selled: {
+    type: Number,
+    trim: true,
+    default: 0,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
